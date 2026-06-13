@@ -49,6 +49,10 @@ export const officialLinks = [
   {
     label: "Claude Code",
     href: "https://www.anthropic.com/claude-code"
+  },
+  {
+    label: "OpenAI Codex Pricing",
+    href: "https://developers.openai.com/codex/pricing"
   }
 ];
 
@@ -149,35 +153,21 @@ export function getRecommendation(answers: Answers): Recommendation {
   if (answers.budget < 10) {
     best = byId("github-copilot-free");
   } else if (answers.workStyle === "team") {
-    if (answers.preference === "ide" && answers.budget >= 40) {
-      best = byId("cursor-teams");
-    } else {
-      best = byId("github-copilot-business");
-    }
+    best = answers.preference === "ide" && answers.budget >= 40 ? byId("cursor-teams") : byId("github-copilot-business");
   } else if (answers.preference === "cli") {
     if (intensity === "heavy" && answers.budget >= 100) {
       best = byId("claude-code-max");
     } else if (answers.budget >= 20) {
       best = byId("claude-code-pro");
-    } else {
-      best = byId("github-copilot-free");
     }
-  } else if (answers.preference === "ide") {
-    if (answers.budget >= 20) {
-      best = byId("cursor-pro");
-    } else {
-      best = byId("github-copilot-free");
-    }
+  } else if (answers.preference === "ide" && answers.budget >= 20) {
+    best = byId("cursor-pro");
   }
 
   const reasons = buildReasons(answers, best, intensity);
   const alternatives = services
     .filter((service) => service.id !== best.id && service.monthlyUsd <= Math.max(answers.budget, 20))
-    .sort((a, b) => {
-      const aFit = fitScore(a, answers);
-      const bFit = fitScore(b, answers);
-      return bFit - aFit || a.monthlyUsd - b.monthlyUsd;
-    })
+    .sort((a, b) => fitScore(b, answers) - fitScore(a, answers) || a.monthlyUsd - b.monthlyUsd)
     .slice(0, 3);
 
   return {

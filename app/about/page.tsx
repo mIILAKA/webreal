@@ -14,7 +14,8 @@ export default function AboutPage() {
           <Link className="button" href="/">
             診断する
           </Link>
-          <Link href="/blog">関連記事を見る</Link>
+          <Link href="/blog/ai-coding-pricing-2026">料金比較2026</Link>
+          <Link href="/blog/agents-md">AGENTS.mdとは</Link>
         </div>
       </section>
 

@@ -48,8 +48,8 @@ export default async function ResultPage({ searchParams }: ResultPageProps) {
               公式ページを見る
             </a>
             <Link href="/">もう一度診断する</Link>
-            <Link href="/about">診断ロジックを見る</Link>
-            <Link href="/blog">関連記事を見る</Link>
+            <Link href="/blog/ai-coding-pricing-2026">料金比較を読む</Link>
+            <Link href="/blog/claude-code-vs-codex">Claude Code vs Codex</Link>
           </div>
         </article>
 
@@ -93,9 +93,6 @@ export default async function ResultPage({ searchParams }: ResultPageProps) {
             ))}
           </tbody>
         </table>
-        <div className="notice">
-          料金や制限は変更される可能性があるため、契約前に必ず公式ページを確認してください。
-        </div>
       </section>
 
       <section className="section">
@@ -127,7 +124,6 @@ export default async function ResultPage({ searchParams }: ResultPageProps) {
               <a href={service.officialUrl} target="_blank" rel="noreferrer">
                 {service.sourceLabel}
               </a>
-              {service.availabilityNote ? <p className="subtle">{service.availabilityNote}</p> : null}
             </article>
           ))}
         </div>

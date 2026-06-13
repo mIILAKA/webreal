@@ -1,31 +1,41 @@
 import Link from "next/link";
-import { blogPosts } from "@/lib/blog";
+import { blogCategories, blogPosts } from "@/lib/blog";
 
 export default function BlogPage() {
   return (
     <div className="container">
       <section className="hero">
         <p className="kicker">Blog</p>
-        <h1>記事一覧</h1>
-        <p className="lead">公開初期の下書き記事です。検索流入を見ながら、診断結果と連動する記事に育てていきます。</p>
+        <h1>AIコーディングの比較・料金・運用ガイド</h1>
+        <p className="lead">
+          Claude Code、Codex、Cursorの料金や使い分けを、個人開発者が契約前に判断できる形で整理しています。
+        </p>
         <div className="actions">
           <Link className="button" href="/">
             診断する
           </Link>
-          <Link href="/about">診断ロジックを見る</Link>
+          <Link href="/blog/ai-coding-pricing-2026">料金比較2026</Link>
+          <Link href="/blog/claude-code-vs-codex">Claude Code vs Codex</Link>
         </div>
       </section>
 
-      <section className="article-grid">
-        {blogPosts.map((post) => (
-          <article className="article-card" key={post.slug}>
-            <p className="kicker">Draft</p>
-            <h2>{post.title}</h2>
-            <p>{post.excerpt}</p>
-            <Link href={`/blog/${post.slug}`}>下書きを読む</Link>
-          </article>
-        ))}
-      </section>
+      {blogCategories.map((category) => (
+        <section className="section" key={category}>
+          <h2>{category}の記事</h2>
+          <div className="article-grid">
+            {blogPosts
+              .filter((post) => post.category === category)
+              .map((post) => (
+                <article className="article-card" key={post.slug}>
+                  <p className="kicker">{post.primaryKeyword}</p>
+                  <h3>{post.title}</h3>
+                  <p>{post.excerpt}</p>
+                  <Link href={`/blog/${post.slug}`}>記事を読む</Link>
+                </article>
+              ))}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }
