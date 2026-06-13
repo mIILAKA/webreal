@@ -239,6 +239,20 @@ select {
   margin-top: 28px;
 }
 
+.faq-item {
+  border-top: 1px solid var(--line);
+  padding: 16px 0;
+}
+
+.faq-item h3 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.faq-item p {
+  margin: 0;
+}
+
 @media (max-width: 760px) {
   .form-grid,
   .radio-row,

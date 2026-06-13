@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { blogPosts, getBlogPost } from "@/lib/blog";
 
@@ -12,6 +13,34 @@ export function generateStaticParams() {
   return blogPosts.map((post) => ({
     slug: post.slug
   }));
+}
+
+export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = getBlogPost(slug);
+
+  if (!post) {
+    return {};
+  }
+
+  return {
+    title: post.seoTitle,
+    description: post.metaDescription,
+    alternates: {
+      canonical: `/blog/${post.slug}`
+    },
+    openGraph: {
+      title: post.seoTitle,
+      description: post.metaDescription,
+      url: `/blog/${post.slug}`,
+      type: "article"
+    },
+    twitter: {
+      card: "summary",
+      title: post.seoTitle,
+      description: post.metaDescription
+    }
+  };
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
@@ -33,6 +62,38 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <p key={paragraph}>{paragraph}</p>
           ))}
         </div>
+
+        <section className="section" aria-labelledby="faq-heading">
+          <h2 id="faq-heading">FAQ</h2>
+          {post.faq.map((item) => (
+            <div className="faq-item" key={item.question}>
+              <h3>{item.question}</h3>
+              <p>{item.answer}</p>
+            </div>
+          ))}
+        </section>
+
+        <section className="section" aria-labelledby="related-heading">
+          <h2 id="related-heading">関連記事</h2>
+          <div className="article-grid">
+            {post.relatedSlugs.map((relatedSlug) => {
+              const related = getBlogPost(relatedSlug);
+              if (!related) {
+                return null;
+              }
+
+              return (
+                <article className="article-card" key={related.slug}>
+                  <p className="kicker">Related</p>
+                  <h3>{related.title}</h3>
+                  <p>{related.excerpt}</p>
+                  <Link href={`/blog/${related.slug}`}>記事を読む</Link>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
         <div className="notice">
           この記事は公開初期の下書きです。料金や制限は変更される可能性があるため、契約前に必ず公式ページを確認してください。
         </div>
