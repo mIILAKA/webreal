@@ -9,6 +9,7 @@
 - 料金、制限、仕様、公式名、契約条件、API条件など変わり得る情報は、必ず公式ソースを確認する。
 - 著作権侵害、規約違反、誤情報、根拠のない断定を避ける。
 - 収益化施策は、Google Search ConsoleとAnalyticsの実データを見てから優先順位を決める。
+- データがない段階では機能追加を最小限にする。
 - すべての変更後に `npm run lint` と `npm run build` を実行する。
 
 ## 作業前チェック
@@ -48,6 +49,9 @@ npm run build
 - `docs/AI_FOUNDER_SYSTEM.md`: システム全体像
 - `docs/OPERATING_RULES.md`: 日常運用ルール
 - `docs/CONTENT_POLICY.md`: コンテンツ安全基準
+- `docs/METRICS.md`: 追跡指標
+- `docs/WEEKLY_REPORT_TEMPLATE.md`: 週次レポート雛形
+- `docs/EXPERIMENTS.md`: 実験ログ
 - `docs/LEGAL_CHECKLIST.md`: 法務・規約確認
 - `docs/SEO_WORKFLOW.md`: SEO改善手順
 - `docs/WEEKLY_REVIEW.md`: 週次レビュー手順
