@@ -1,0 +1,73 @@
+name: ai-weekly-review
+
+on:
+  workflow_dispatch:
+    inputs:
+      review_period:
+        description: "Review period, for example: last 7 days"
+        required: false
+        default: "last 7 days"
+  schedule:
+    - cron: "0 0 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  weekly-review-template:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate weekly review prompt
+        run: |
+          mkdir -p weekly-review-output
+          cat > weekly-review-output/weekly-review-prompt.md <<'REVIEW'
+          # AI Weekly Review Prompt
+
+          Follow docs/WEEKLY_REVIEW.md and generate the next improvement ideas for webreal.
+
+          Important rules:
+          - Do not push directly to main.
+          - Do not create a PR automatically in v1.
+          - Check official sources before changing prices, limits, plans, terms, or official product information.
+          - Avoid copyright infringement, terms violations, and misinformation.
+          - Before monetization decisions, review Google Search Console and Analytics data.
+
+          Search Console items to review:
+          - Total clicks
+          - Total impressions
+          - Average CTR
+          - Average position
+          - Queries with high impressions and low CTR
+          - Queries ranking from 11 to 30
+          - Page-level clicks and impressions
+          - Last 7 days vs previous 28 days
+
+          Analytics items to review:
+          - Page views
+          - Engagement
+          - Traffic sources
+          - Pages with weak engagement
+          - Candidate pages for monetization
+
+          Output:
+          - Weekly summary
+          - Top 3 improvement ideas
+          - Pages to update
+          - Official information that must be checked
+          - Suggested branch names
+          - Suggested validation commands
+
+          Validation commands:
+          - npm run lint
+          - npm run build
+          REVIEW
+
+      - name: Upload weekly review prompt
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekly-review-prompt
+          path: weekly-review-output/weekly-review-prompt.md
