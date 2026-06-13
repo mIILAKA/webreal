@@ -1,5 +1,10 @@
 export type BlogCategory = "比較" | "料金" | "運用";
 
+export type OfficialSource = {
+  label: string;
+  href: string;
+};
+
 export type BlogPost = {
   slug: string;
   title: string;
@@ -8,6 +13,10 @@ export type BlogPost = {
   excerpt: string;
   category: BlogCategory;
   primaryKeyword: string;
+  searchIntent: string;
+  lastUpdated: string;
+  officialReviewedAt: string;
+  officialSources: OfficialSource[];
   body: string[];
   faq: Array<{
     question: string;
@@ -16,7 +25,35 @@ export type BlogPost = {
   relatedSlugs: string[];
 };
 
-export const blogPosts: BlogPost[] = [
+export const blogContentLastUpdated = "2026-06-13";
+
+const officialSources = {
+  githubCopilotPlans: {
+    label: "GitHub Copilot Plans",
+    href: "https://docs.github.com/en/copilot/get-started/plans"
+  },
+  githubCopilotPricing: {
+    label: "GitHub Copilot Pricing",
+    href: "https://github.com/features/copilot/plans"
+  },
+  cursorPricing: {
+    label: "Cursor Pricing",
+    href: "https://cursor.com/pricing"
+  },
+  claudeCode: {
+    label: "Claude Code",
+    href: "https://www.anthropic.com/claude-code"
+  },
+  codexPricing: {
+    label: "OpenAI Codex Pricing",
+    href: "https://developers.openai.com/codex/pricing"
+  }
+} satisfies Record<string, OfficialSource>;
+
+type BlogPostInput = Omit<BlogPost, "lastUpdated" | "officialReviewedAt"> &
+  Partial<Pick<BlogPost, "lastUpdated" | "officialReviewedAt">>;
+
+const blogPostInputs: BlogPostInput[] = [
   {
     slug: "claude-code-vs-codex",
     title: "Claude Code vs Codex",
@@ -25,6 +62,8 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Claude CodeとCodexの違いを、料金よりも開発フローと使い方から整理します。",
     category: "比較",
     primaryKeyword: "Claude Code vs Codex",
+    searchIntent: "Claude CodeとCodexの違い、料金、使い方を比較し、自分に合う契約先を決めたい。",
+    officialSources: [officialSources.claudeCode, officialSources.codexPricing],
     body: [
       "Claude CodeとCodexは、どちらもAIにコード作業を任せるための強力な選択肢です。ただし選び方を「どちらのモデルが賢いか」だけに寄せると失敗しやすくなります。実際の差は、料金体系、作業場所、長時間タスクへの向き不向き、既存ワークフローとの相性に出ます。MVPや個人開発では、毎月の固定費と使う頻度を先に決めるほうが現実的です。",
       "Claude Codeは、ターミナルでコードベースを読み、実装、調査、修正、テスト実行まで進めたい人に向きます。ProやMaxプランで使う場合、月額の予算を読みやすい一方で、利用上限や混雑時の制限は変わる可能性があります。毎日リファクタや複数ファイル修正を任せたいなら、Proだけで足りるか、Maxが必要かを早めに見極める必要があります。",
@@ -57,6 +96,8 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Claude Codeを使う前提で、ProとMaxの選び方を月予算と開発時間から整理します。",
     category: "料金",
     primaryKeyword: "Claude Max vs Pro",
+    searchIntent: "Claude Code目的でClaude ProとMaxのどちらを契約すべきか判断したい。",
+    officialSources: [officialSources.claudeCode],
     body: [
       "Claude ProとClaude Maxの違いは、単純な機能差というより、どれだけ長く、どれだけ重い作業を任せるかの差です。Claude Codeを月に数回使う程度ならProから始めるのが自然です。一方で、毎日まとまった時間を使い、実装、調査、テスト、リファクタを連続して依頼するなら、Proの上限に早く当たる可能性があります。",
       "Proは、月20ドル前後の入口として考えやすいプランです。学習、個人アプリの小さな機能追加、レビュー補助、短いバグ修正などには向きます。MVPを最速で出す段階でも、1日1時間程度の利用ならProで十分なケースが多いです。",
@@ -89,6 +130,8 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Cursor Ultraを契約すべき人と、Proで十分な人の違いを整理します。",
     category: "料金",
     primaryKeyword: "Cursor Ultra 価値",
+    searchIntent: "Cursor UltraがProやPro+より高い料金に見合うか判断したい。",
+    officialSources: [officialSources.cursorPricing],
     body: [
       "Cursor Ultraは、Cursorを開発の中心に置き、Agentや高性能モデルを長時間使う人向けの上位プランです。重要なのは、Ultraが成果を保証するプランではなく、より多い利用枠を買うプランだという点です。",
       "Proで十分な人は多いです。週に数時間の個人開発、MVPの小さな機能追加、コード補完とチャット中心の利用なら、まずProで始めるほうが無駄がありません。Cursorの強みは、IDE内で複数ファイル編集やAgent作業を進められることです。",
@@ -121,6 +164,8 @@ export const blogPosts: BlogPost[] = [
     excerpt: "AGENTS.mdは、AIコーディングエージェントにプロジェクトの前提を伝えるためのREADMEです。",
     category: "運用",
     primaryKeyword: "AGENTS.md",
+    searchIntent: "AGENTS.mdの役割、書き方、AIコーディングでの使い方を知りたい。",
+    officialSources: [officialSources.claudeCode, officialSources.codexPricing],
     body: [
       "AGENTS.mdは、AIコーディングエージェントに向けたREADMEのようなファイルです。人間向けのREADMEがセットアップや使い方を書く場所だとすれば、AGENTS.mdはAIが安全に作業するための前提、コマンド、設計方針、注意点を書く場所です。",
       "書くべき内容は、セットアップコマンド、テストコマンド、コードスタイル、ディレクトリ構成、触ってはいけないファイル、PR前の確認手順です。たとえば「依存関係はnpm install」「検証はnpm run lintとnpm run build」「DBマイグレーションは勝手に実行しない」などです。",
@@ -153,6 +198,8 @@ export const blogPosts: BlogPost[] = [
     excerpt: "CLAUDE.mdは、Claude Codeにプロジェクト固有のルールや前提を渡すためのファイルです。",
     category: "運用",
     primaryKeyword: "CLAUDE.md",
+    searchIntent: "CLAUDE.mdの役割、AGENTS.mdとの違い、Claude Codeでの運用方法を知りたい。",
+    officialSources: [officialSources.claudeCode],
     body: [
       "CLAUDE.mdは、Claude Codeにプロジェクト固有の前提を伝えるためのファイルです。毎回同じ説明をする代わりに、リポジトリのルールをファイルとして残せます。Claude Codeを継続利用するなら、最初に整える価値があります。",
       "書く内容は、プロジェクト概要、開発コマンド、テストコマンド、コードスタイル、禁止事項、よくある失敗、レビュー観点です。たとえば「変更後はnpm run lintとnpm run buildを実行」「UIは既存CSSに合わせる」などです。",
@@ -185,6 +232,14 @@ export const blogPosts: BlogPost[] = [
     excerpt: "Claude Code、Codex、Cursor、GitHub Copilotを予算と開発スタイル別に比較します。",
     category: "料金",
     primaryKeyword: "AIコーディング 料金 比較 2026",
+    searchIntent: "AIコーディングツールの料金を比較し、予算別に最初の契約候補を決めたい。",
+    officialSources: [
+      officialSources.githubCopilotPlans,
+      officialSources.githubCopilotPricing,
+      officialSources.cursorPricing,
+      officialSources.claudeCode,
+      officialSources.codexPricing
+    ],
     body: [
       "2026年のAIコーディング料金は、月額だけで比較しにくくなっています。Claude Code、Codex、Cursor、GitHub Copilotはいずれも、プラン内の利用枠、追加利用、モデルごとの消費、チーム機能の有無が絡みます。",
       "個人開発の入口は、無料から月20ドル前後です。軽い補完、チャット、学習、週数時間のMVP開発なら、まずFreeやPro相当のプランで十分です。Cursor Pro、Claude Pro、ChatGPT/Codex系のプラン、GitHub Copilotの各プランが候補になります。",
@@ -217,6 +272,13 @@ export const blogPosts: BlogPost[] = [
     excerpt: "個人開発者が最初に見るべき判断軸を、予算と利用頻度から整理します。",
     category: "料金",
     primaryKeyword: "AIコーディング 課金",
+    searchIntent: "個人開発でAIコーディング課金を始めるべきか、月20ドル前後から判断したい。",
+    officialSources: [
+      officialSources.githubCopilotPricing,
+      officialSources.cursorPricing,
+      officialSources.claudeCode,
+      officialSources.codexPricing
+    ],
     body: [
       "AIコーディングサービスは、まず月20ドル前後のプランから試すのが現実的です。毎日長時間使う前提がないなら、最初から高額プランに入るより、1週間の開発時間と用途を見ながら上げるほうが失敗しにくくなります。",
       "IDE中心ならCursorやGitHub Copilot、CLI中心ならClaude Codeのように、普段の作業場所に近いサービスを選ぶと継続しやすいです。料金だけで選ぶより、実際にコードを書く流れを邪魔しないことを優先しましょう。",
@@ -238,6 +300,8 @@ export const blogPosts: BlogPost[] = [
     excerpt: "IDE内の体験、既存ワークフロー、チーム導入の観点で比較します。",
     category: "比較",
     primaryKeyword: "Cursor GitHub Copilot 比較",
+    searchIntent: "CursorとGitHub Copilotの違いを比較し、自分のIDE運用に合う方を選びたい。",
+    officialSources: [officialSources.cursorPricing, officialSources.githubCopilotPlans, officialSources.githubCopilotPricing],
     body: [
       "CursorはAI前提のエディタ体験を重視したい人に向いています。複数ファイルをまたいだ編集やAgent的な作業をIDE内で進めたい場合、最初の候補にしやすいサービスです。",
       "GitHub Copilotは既存のVS Code、JetBrains、GitHub上の作業に自然に足したい人に向いています。すでにGitHub中心で開発しているチームでは、導入や説明がしやすいのが強みです。",
@@ -259,6 +323,8 @@ export const blogPosts: BlogPost[] = [
     excerpt: "ターミナルでの実装依頼、調査、リファクタ用途に向いた選び方をまとめます。",
     category: "運用",
     primaryKeyword: "CLI AIコーディング",
+    searchIntent: "CLI中心でAIコーディングを進めるときに見るべきツールと選び方を知りたい。",
+    officialSources: [officialSources.claudeCode, officialSources.codexPricing],
     body: [
       "CLI派は、チャット画面の使いやすさよりも、ローカルのリポジトリで調査、編集、テストまで回しやすいかを見たほうがよいです。ターミナルから作業を渡せると、実装中の文脈を保ちやすくなります。",
       "Claude CodeのようなCLI寄りのツールは、短い実装スプリントやリファクタの相談に向いています。週の開発時間が長い場合は、利用上限や上位プランの確認が重要になります。",
@@ -273,6 +339,12 @@ export const blogPosts: BlogPost[] = [
     relatedSlugs: ["claude-code-vs-codex", "agents-md", "claude-md"]
   }
 ];
+
+export const blogPosts: BlogPost[] = blogPostInputs.map((post) => ({
+  ...post,
+  lastUpdated: post.lastUpdated ?? blogContentLastUpdated,
+  officialReviewedAt: post.officialReviewedAt ?? blogContentLastUpdated
+}));
 
 export const blogCategories: BlogCategory[] = ["比較", "料金", "運用"];
 

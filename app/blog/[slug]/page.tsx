@@ -58,6 +58,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <h1 className="page-title">{post.title}</h1>
         <p className="lead">{post.excerpt}</p>
 
+        <dl className="meta-list" aria-label="記事メタ情報">
+          <div>
+            <dt>検索意図</dt>
+            <dd>{post.searchIntent}</dd>
+          </div>
+          <div>
+            <dt>最終更新日</dt>
+            <dd>{post.lastUpdated}</dd>
+          </div>
+          <div>
+            <dt>公式情報確認日</dt>
+            <dd>{post.officialReviewedAt}</dd>
+          </div>
+        </dl>
+
         <div className="notice">
           先に自分の予算と開発スタイルを確認したい場合は、無料診断ツールから始められます。
         </div>
@@ -109,6 +124,21 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="notice">
           料金や制限は変更される可能性があるため、契約前に必ず公式ページを確認してください。
         </div>
+
+        <section className="section" aria-labelledby="official-sources-heading">
+          <h2 id="official-sources-heading">公式情報リンク</h2>
+          <p className="subtle">料金、制限、提供条件は変更される可能性があります。契約前に最新の公式情報を確認してください。</p>
+          <ul className="source-list">
+            {post.officialSources.map((source) => (
+              <li key={source.href}>
+                <a href={source.href} target="_blank" rel="noreferrer">
+                  {source.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         <div className="actions">
           <Link className="button" href="/">
             診断する

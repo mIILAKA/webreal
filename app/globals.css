@@ -235,6 +235,36 @@ select {
   padding: 14px 16px;
 }
 
+.meta-list {
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 10px;
+  margin: 22px 0 0;
+  padding: 16px 0;
+}
+
+.meta-list div {
+  display: grid;
+  gap: 6px;
+  grid-template-columns: 150px minmax(0, 1fr);
+}
+
+.meta-list dt {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.meta-list dd {
+  margin: 0;
+}
+
+.source-list {
+  margin: 12px 0 0;
+  padding-left: 20px;
+}
+
 .section {
   margin-top: 28px;
 }
@@ -268,5 +298,9 @@ select {
   .nav {
     align-items: flex-start;
     flex-direction: column;
+  }
+
+  .meta-list div {
+    grid-template-columns: 1fr;
   }
 }
