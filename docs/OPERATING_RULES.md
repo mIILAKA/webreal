@@ -4,8 +4,22 @@
 
 - `main` への直接pushは禁止。
 - すべての変更はPRで提出する。
-- PRは小さく保ち、目的が1つに見える粒度にする。
+- 1PR = 1目的にする。
+- PRは小さく保ち、原則300行以内にする。
+- 大規模変更は複数PRに分割する。
+- Analytics、SEO、Revenue、Content、Automationは別ブランチで作業する。
+- 複数カテゴリにまたがる改善は、先にBACKLOGへ分割案を残す。
 - PR本文には、変更目的、変更ファイル、検証結果、公式確認の有無を書く。
+
+## 作業カテゴリ
+
+以下のカテゴリは、原則として同じPRに混ぜない。
+
+- Analytics: 計測タグ、イベント、レポート、Search ConsoleやAnalytics連携
+- SEO: メタ情報、構造化データ、内部リンク、サイトマップ、robots
+- Revenue: 収益化導線、広告、アフィリエイト、課金導線
+- Content: 記事本文、FAQ、比較表、公式情報の確認更新
+- Automation: GitHub Actions、Issue化、PR下書き、定期実行
 
 ## 公式情報の確認
 
