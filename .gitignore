@@ -1,0 +1,13 @@
+.next
+node_modules
+out
+.env*.local
+*.tsbuildinfo
+vercel
+dev-server.*.log
+category_reassessment.md
+gap_analysis.md
+opportunity_ranking.md
+research_report.md
+site_plan.md
+validation_report.md

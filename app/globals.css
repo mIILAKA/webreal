@@ -1,0 +1,258 @@
+:root {
+  --bg: #f7f8fb;
+  --panel: #ffffff;
+  --ink: #17202a;
+  --muted: #617083;
+  --line: #dbe2ec;
+  --accent: #116466;
+  --accent-dark: #0b4f51;
+  --warn: #8a4b13;
+  --soft: #edf7f6;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, sans-serif;
+  line-height: 1.6;
+}
+
+a {
+  color: var(--accent-dark);
+}
+
+.site-header {
+  border-bottom: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.92);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.nav {
+  align-items: center;
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1040px;
+  padding: 14px 20px;
+}
+
+.brand {
+  color: var(--ink);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-size: 14px;
+}
+
+.nav-links a {
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1040px;
+  padding: 36px 20px 56px;
+}
+
+.hero {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.hero h1,
+.page-title {
+  font-size: clamp(30px, 5vw, 48px);
+  line-height: 1.16;
+  margin: 0;
+}
+
+.lead {
+  color: var(--muted);
+  font-size: 18px;
+  margin: 0;
+  max-width: 760px;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+}
+
+.form-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+}
+
+.field label,
+.group-label {
+  font-weight: 700;
+}
+
+input,
+select {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--ink);
+  font: inherit;
+  padding: 11px 12px;
+  width: 100%;
+}
+
+.radio-row {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.radio-card {
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+  min-height: 48px;
+  padding: 10px 12px;
+}
+
+.radio-card input {
+  width: auto;
+}
+
+.actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.button {
+  background: var(--accent);
+  border: 0;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font: inherit;
+  font-weight: 800;
+  padding: 12px 18px;
+  text-decoration: none;
+}
+
+.button:hover {
+  background: var(--accent-dark);
+}
+
+.subtle {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.result-grid,
+.article-grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.result-card,
+.article-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px;
+}
+
+.result-card.primary {
+  background: var(--soft);
+  border-color: #9ccfca;
+  grid-column: span 2;
+}
+
+.kicker {
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0;
+  margin: 0 0 6px;
+}
+
+.price {
+  font-size: 28px;
+  font-weight: 900;
+  margin: 8px 0;
+}
+
+.reason-list {
+  margin: 10px 0 0;
+  padding-left: 20px;
+}
+
+.compare-table {
+  border-collapse: collapse;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.compare-table th,
+.compare-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 12px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.notice {
+  background: #fff8ec;
+  border: 1px solid #f0d4a8;
+  border-radius: 8px;
+  color: var(--warn);
+  margin-top: 18px;
+  padding: 14px 16px;
+}
+
+.section {
+  margin-top: 28px;
+}
+
+@media (max-width: 760px) {
+  .form-grid,
+  .radio-row,
+  .result-grid,
+  .article-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .result-card.primary {
+    grid-column: span 1;
+  }
+
+  .nav {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
