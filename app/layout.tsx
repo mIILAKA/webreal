@@ -30,6 +30,9 @@ export const metadata: Metadata = {
     title: `${siteName} | AIコーディング課金プラン診断`,
     description: siteDescription
   },
+  verification: {
+    google: "VGyBx07OdGTXbiPKFXzTYYXorqLXIM-VDcqPBcbWVc0"
+  },
   robots: {
     index: true,
     follow: true
