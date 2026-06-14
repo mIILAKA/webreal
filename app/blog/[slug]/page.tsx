@@ -1,7 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { ArticleViewEvent } from "@/app/components/article-view-event";
 import { blogPosts, getBlogPost } from "@/lib/blog";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://ai-coding-plan-finder.vercel.app";
+const siteName = "AI Coding Plan Finder";
 
 type BlogPostPageProps = {
   params: Promise<{
@@ -51,8 +55,38 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     notFound();
   }
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.seoTitle,
+    description: post.metaDescription,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${siteUrl}/blog/${post.slug}`
+    },
+    datePublished: post.lastUpdated,
+    dateModified: post.lastUpdated,
+    author: {
+      "@type": "Organization",
+      name: siteName,
+      url: siteUrl
+    },
+    publisher: {
+      "@type": "Organization",
+      name: siteName,
+      url: siteUrl
+    }
+  };
+
   return (
     <div className="container">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleJsonLd)
+        }}
+      />
+      <ArticleViewEvent slug={post.slug} title={post.title} category={post.category} />
       <article className="panel">
         <p className="kicker">{post.category}</p>
         <h1 className="page-title">{post.title}</h1>
