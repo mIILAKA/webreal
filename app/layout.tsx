@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { GoogleAnalytics } from "@/app/components/google-analytics";
 import "./globals.css";
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://ai-coding-plan-finder.vercel.app";
@@ -47,6 +48,7 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
+        <GoogleAnalytics />
         <header className="site-header">
           <nav className="nav" aria-label="Main navigation">
             <Link className="brand" href="/">

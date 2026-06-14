@@ -55,6 +55,30 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.example
 
 未設定の場合は `https://ai-coding-plan-finder.vercel.app` をOGP、robots、sitemapのURLに使います。独自ドメインやVercelの正式URLが決まったら、本番環境変数に設定してください。
 
+Google Analytics 4を使う場合は、GA4の測定IDを `NEXT_PUBLIC_GA_ID` に設定します。
+
+```bash
+NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+```
+
+未設定の場合、GA4スクリプトとイベント送信は無効になり、サイトは通常どおり動作します。
+
+## GA4設定手順
+
+1. Google AnalyticsでGA4プロパティを作成します。
+2. Webデータストリームを追加し、測定ID（`G-` で始まるID）を控えます。
+3. VercelのEnvironment Variablesに `NEXT_PUBLIC_GA_ID` を追加します。
+4. 再デプロイします。
+5. GA4のリアルタイムレポートで初回アクセスとページ閲覧を確認します。
+6. 診断フォームを送信し、`diagnosis_submit` イベントが記録されることを確認します。
+7. 記事ページを開き、`article_view` イベントが記録されることを確認します。
+
+計測できる主な項目:
+
+- 初アクセスと流入元: GA4の標準ページビューで確認
+- 記事閲覧: `article_view`
+- 診断ツール利用: `diagnosis_submit`
+
 ## Vercel公開前チェックリスト
 
 - [ ] `npm install` が成功する
